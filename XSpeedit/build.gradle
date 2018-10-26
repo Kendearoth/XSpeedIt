@@ -30,8 +30,12 @@ repositories {
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
-	//implementation('org.springframework.boot:spring-boot-starter')
-	//testImplementation('org.springframework.boot:sp	ring-boot-starter-test')
+	testImplementation(
+            'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    )
+    testRuntimeOnly(
+            'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    )
 }
 
 task wrapper(type: Wrapper) {
