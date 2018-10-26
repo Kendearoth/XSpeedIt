@@ -11,8 +11,8 @@ public class Articles  {
 	private String articles;
 	
 	/**
-	 * The constructor creates an array of articles of different sizes randomly.
-	 * The size of the array is defined by the Size parameter of the Articles class.
+	 * The constructor creates a string of number between 1 and 9 representing the size of an article
+	 * The size of the string is 15 by default.
 	 */
 	public Articles() {
 		
@@ -20,15 +20,34 @@ public class Articles  {
 		
 		for (int i = 0; i < this.size; i++) {
 			int tmp = (((int) (Math.random() * 9)) + 1);
-			String str = String.valueOf(tmp);
-			articles = articles.concat(str);
+			articles = articles.concat(String.valueOf(tmp));
 		}
 		
 		this.articles = articles;
 	}
 	
 	/**
-	 * Gets the array of articles
+	 * Constructor by String representation
+	 * @param articles
+	 */
+	public Articles(String articles) {
+		//Functions to verify that the String is OK
+		
+		this.size = articles.length();
+		this.articles = articles;
+	}
+	
+	/**
+	 * Constructor by copy
+	 * @param articles 
+	 */
+	public Articles(Articles articles) {
+		this.size = articles.getSize();
+		this.articles = articles.getArticles();
+	}
+	
+	/**
+	 * Gets the string representing the articles
 	 * @return String
 	 */
 	public String getArticles() {
@@ -36,7 +55,7 @@ public class Articles  {
 	}
 	
 	/**
-	 * Gets the size of the array of article
+	 * Gets the size of the string representing the article
 	 * @return Integer
 	 */
 	public int getSize() {

@@ -10,6 +10,8 @@ buildscript {
 	}
 }
 
+plugins { id "io.spring.dependency-management" version "1.0.4.RELEASE" }
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -17,14 +19,21 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.xspeedit'
 version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
-
 dependencies {
-	implementation('org.springframework.boot:spring-boot-starter')
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+	//implementation('org.springframework.boot:spring-boot-starter')
+	//testImplementation('org.springframework.boot:sp	ring-boot-starter-test')
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.6'
 }

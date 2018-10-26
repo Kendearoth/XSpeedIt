@@ -24,13 +24,16 @@ public class Robot {
 		String articlePacked = "";
 		int anchor = 0;
 		int sumTmp = 0;
+		//For every articles we sum them sequentially until the sum is greater than 10
 ;		for (int i = 0; i < articleString.length(); i++) {
 			int x = Character.getNumericValue((articleString.charAt(i)));
 			sumTmp += x;
 			if (sumTmp > 10) {
+				//If it's equal 10, we put the articles into box (i.e we add a slash after the precedent articles)
 				if (sumTmp == 10) {
 					articlePacked = articlePacked.concat(articleString.substring(anchor, i+1)).concat("/");
 					anchor = i+1;
+				//if not, we put the precedent articles except the last counted, and resume packing at i-1
 				} else {
 					articlePacked = articlePacked.concat(articleString.substring(anchor, i)).concat("/");
 					anchor = i;
@@ -47,62 +50,61 @@ public class Robot {
 	}
 	
 	/**
-	 * A function which pack articles focus on making pairs
+	 * A function which pack articles focusing on making pairs
 	 * @param articles Object
-	 * @return String representing the article packed
+	 * @return String representing of the article packed
 	 */
 	public String packOptimized(Articles articles) {
 		String articleString = articles.getArticles();
 		String articlesPacked = "";
 		int i = 0;
 		
+		//The sequence of articles is cast to an array in order to be sorted
 		ArrayList<Integer> articlesArray = StringValueToArray(articleString);
 		Collections.sort(articlesArray);
-		//System.out.println(articlesArray);
 		
+		// While the iterator hasn't reach the end of the sequence
 		while (i != articlesArray.size()) {
 			int j = articlesArray.size() - 1;
+			// while j and i are different, we try to find the complementary value (10 - value) of the articles at the index i
 			while (j != i) {
 				int value = articlesArray.get(i);
 				int valueSeek = 10 - value;
+				//if we find it, we add the pair to the result and remove the two articles from the array
 				if (articlesArray.get(j) == valueSeek) {
-					//On a trouvé
 					
-					//On écrit la combinaison
 					articlesPacked = articlesPacked.concat(String.valueOf(articlesArray.get(i)))
 													.concat(String.valueOf(articlesArray.get(j))).concat("/");
-					//On supprime les articles de la liste
 					articlesArray.remove(j);
 					articlesArray.remove(i);
 					i = 0;
 					j = articlesArray.size() - 1;
+				//if not we iterate on j to check another pair
 				} else {
-					//On a pas trouvé, on continue de chercher
 					j -= 1;
 				}
 			}
-			// On a pas trouvé du tout, on recherche une autre combinaison
+			// if the pair doesn't exist, we iterate on i
 			i += 1;
 		}
-		//System.out.println(articlesArray);
+		//It last the articles that doesn't have perfect pairs
+		//So we try to make pairs by minimizing the lost
 		while (articlesArray.size() != 0) {
 			int k = 0;
 			int value = articlesArray.get(k);
 			int l = articlesArray.size() - 1;
 			while (k != l) {
 				if (value + articlesArray.get(l) < 10) {
-					//On a trouvé
 					articlesPacked = articlesPacked.concat(String.valueOf(articlesArray.get(k)))
 							.concat(String.valueOf(articlesArray.get(l))).concat("/");
 					articlesArray.remove(l);
 					articlesArray.remove(k);
-					//System.out.println(articlesArray);
 					break;
 				} else {
-					//On a pas trouvé
 					l -= 1;
 				}
 			}
+			//if no pair exist we put only one article into a box
 			if ((articlesArray.size() != 0) && (k == l)) {
 				articlesPacked = articlesPacked.concat(String.valueOf(articlesArray.get(k))).concat("/");
 				articlesArray.remove(k);
@@ -114,7 +116,7 @@ public class Robot {
 	/**
 	 * Function that transform the sequence of articles representation into an ArrayList of Integers
 	 * @param str : the sequence of articles (an integer represent its size)
-	 * @return ArrayList<Integer>
+	 * @return ArrayList of Integer
 	 */
 	public ArrayList<Integer> StringValueToArray(String str) {
 		ArrayList<Integer> result = new ArrayList<Integer>();
